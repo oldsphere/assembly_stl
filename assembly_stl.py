@@ -16,13 +16,18 @@ class STLBlock:
         self.name = new_name
 
     def get_stl(self) -> str:
-        return f"solid {self.name}\n" f"{self.content}\n" f"endsolid {self.name}\n"
+        return f"solid {self.name}\n{self.content}\nendsolid {self.name}\n"
 
 
 def load_data(filepath: str) -> str:
     """Load the content of the STL file"""
     with open(filepath, "r") as fid:
         return fid.read()
+
+
+def write_blocklist(blocks: List[STLBlock], filename: str) -> str:
+    with open(filename, "w") as fid:
+        fid.write(assembly_stl(blocks))
 
 
 def find_blocks(content: str) -> List[STLBlock]:
@@ -55,8 +60,8 @@ def assembly_stl(blocks: List[STLBlock]) -> str:
 if __name__ == "__main__":
 
     parser = ArgumentParser(
-        prog = "Assembly STL",
-        description="Process separated STL files and combine them in a single output"
+        prog="Assembly STL",
+        description="Process separated STL files and combine them in a single output",
     )
 
     parser.add_argument("inlet_files", nargs="+", help="Inlet STL files")
@@ -70,23 +75,25 @@ if __name__ == "__main__":
     prefix = args.prefix
 
     if not output_file:
-        print("No output file provided")
+        print("ERROR:No output file provided")
         sys.exit(1)
 
     blocks = []
     for file in inlet_files:
         content = load_data(file)
+
         file_blocks = find_blocks(content)
-        block_name = extract_name(file, prefix)
         if len(file_blocks) < 1:
-            print(f"File {file} has no STL blocks")
+            print(f"ERROR: File {file} has no STL blocks")
             sys.exit(1)
         if len(file_blocks) > 1:
-            print(f"File {file} is already a composed STL")
+            print(f"ERROR: File {file} is already a composed STL")
             sys.exit(1)
         block = file_blocks[0]
+
+        block_name = extract_name(file, prefix)
         block.replace_name(block_name)
         blocks.append(block)
 
-    with open(output_file, "w") as fid:
-        fid.write(assembly_stl(blocks))
+    write_blocklist(blocks, output_file)
+
