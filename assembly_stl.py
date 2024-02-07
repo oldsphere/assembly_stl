@@ -55,6 +55,7 @@ def assembly_stl(blocks: List[STLBlock]) -> str:
 if __name__ == "__main__":
 
     parser = ArgumentParser(
+        prog = "Assembly STL",
         description="Process separated STL files and combine them in a single output"
     )
 

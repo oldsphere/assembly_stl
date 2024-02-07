@@ -7,12 +7,12 @@ setup(
     author_email='crubio.abujas@gmail.com',
     description='A Modulo to assembly and rename single stl in a combined one.',
     url='https://github.com/oldsphere/assembly_stl',
-    packages=['assembly_stl'],
+    packages=[],
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
-    scripts=['assembly_stl']
+    scripts=['assembly_stl.py']
 )
 
