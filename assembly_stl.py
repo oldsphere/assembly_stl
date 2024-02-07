@@ -25,7 +25,7 @@ def load_data(filepath: str) -> str:
         return fid.read()
 
 
-def write_blocklist(blocks: List[STLBlock], filename: str) -> str:
+def write_blocklist(blocks: List[STLBlock], filename: str) -> None:
     with open(filename, "w") as fid:
         fid.write(assembly_stl(blocks))
 
